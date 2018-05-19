@@ -8,14 +8,12 @@ RSpec.describe Url, type: :model do
   end
 
   it "cant be blank with nil" do
-    #byebug
     url = build(:url, url: nil)
     url.valid?
     url.errors[:url].should include("can't be blank")
   end
 
   it "is invalid without a url" do
-    #byebug
     url = build(:url, url: nil)
     url.valid?
     url.errors[:url].should include("is invalid")
