@@ -36,6 +36,12 @@ RSpec.describe Url, type: :model do
       expect(@twitch_url.access_count).to be(1)
     end
 
+    it "#increases the access_count when the url is accessed" do
+      url = build(:url, url: "http://www.twitch.com")
+      url.sanitize
+      expect(@twitch_url.access_count).to be(1)
+    end
+
     it "#generate_short_url generates a 6-char string containing only letters and numbers" do
       url = build(:url)
       url.generate_short_url
