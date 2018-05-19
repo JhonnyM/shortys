@@ -1,14 +1,31 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Shortys</title>
-    <%= csrf_meta_tags %>
+<head>
+  <title>Shortys</title>
+  <%= stylesheet_link_tag    'application', media: 'all' %>
+  <%= javascript_include_tag 'application'%>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+  <%= render partial: 'shared/header'%>
+  <div class="container">
 
-    <%= stylesheet_link_tag    'application', media: 'all' %>
-    <%= javascript_include_tag 'application' %>
-  </head>
+    <div class="page-header" id="banner">
+      <div class="row">
+        <div class="col-lg-8 col-md-7 col-sm-6">
+          <h1>Welcome To Shorty</h1>
+        </div>
+      </div>
+      <div class="row">
+        <% flash.each do |type, msg| %>
+        <%= content_tag :div, msg, class: build_alert_classes(type) %>
+        <% end %>
+        <%= yield %>
+      </div>
+    </div>
 
-  <body>
-    <%= yield %>
-  </body>
+    <%= render partial: 'shared/footer'%>
+  </div>
+
+</body>
 </html>

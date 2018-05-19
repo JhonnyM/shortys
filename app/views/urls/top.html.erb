@@ -1,0 +1,23 @@
+<h3>Top 100 accesed URL's</h3>
+<% unless @top_urls.nil? %>
+  <table class="table table-striped table-hover ">
+    <thead>
+      <tr>
+        <th>URL</th>
+        <th>Count</th>
+        <th>Short Url</th>
+      </tr>
+    </thead>
+    <tbody>
+    	<% @top_urls.each do |url| %>
+      <tr>
+        <td><%= url.sanitize_url %></td>
+        <td><%= url.access_count %></td>
+        <td><%= url.short_url %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table> 
+<% else %>
+ <p>No information to display </p>
+<% end %>
