@@ -1,24 +1,28 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## URL Shortener
 
-Things you may want to cover:
+The Idea behind this application is to generate a sortened urls and list the Top 100  accessed urls
 
-* Ruby version
 
-* System dependencies
+## Gems Used
 
-* Configuration
+Some of the gems used in the application
 
-* Database creation
+⋅⋅* Rspec
+⋅⋅* bootstrap-sass
+⋅⋅* faker
+⋅⋅* factory_girl_rails
+⋅⋅* capybara
+⋅⋅* database_cleaner
+⋅⋅* rails-controller-testing
 
-* Database initialization
+## Installation
 
-* How to run the test suite
+Run 
 
-* Services (job queues, cache servers, search engines, etc.)
+bundle install
+bundle exec rake db:create
+bundle exec rake db:migrate
 
-* Deployment instructions
-
-* ...
+Please be aware that you need to have Postgresql installed.
