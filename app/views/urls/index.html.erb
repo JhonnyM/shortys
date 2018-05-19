@@ -1,0 +1,14 @@
+<div class="row">
+	<div class="jumbotron">
+		<h2>Shortern your url</h2>
+		<p>Please enter your the url you want to shortern.</p>
+		<%= form_for @url do |f| %>
+		<div class="form-group">
+			<%= f.text_field :url, :class => "col-lg-6 control-label",  placeholder: "Enter the URL you want to shorten...", label: false  %>
+		</div>
+		<div class="form-group">
+			<%= f.submit "Shortern" , :class => 'btn btn-warning' %>
+		</div>
+		<% end %>
+	</div>
+</div>
