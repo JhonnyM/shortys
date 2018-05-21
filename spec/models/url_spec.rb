@@ -42,12 +42,6 @@ RSpec.describe Url, type: :model do
       expect(@twitch_url.access_count).to be(1)
     end
 
-    it "#generate_short_url generates a 6-char string containing only letters and numbers" do
-      url = build(:url)
-      url.generate_short_url
-      expect(url.short_url).to match(/\A[a-z\d]{6}\z/i)
-    end
-
     it "#generate_short_url always generates a short_url that is not in the database" do
     end
 
@@ -73,42 +67,6 @@ RSpec.describe Url, type: :model do
 
     context "#sanitize" do
 
-      it "changes 'www.google.com' to 'http://google.com'" do
-        url = build(:url, url: 'www.google.com')
-        url.sanitize
-        expect(url.sanitize_url).to eq('http://google.com')
-      end
-
-      it "changes 'www.google.com/' to 'http://google.com'" do
-        url = build(:url, url: 'www.google.com/')
-        url.sanitize
-        expect(url.sanitize_url).to eq('http://google.com')
-      end
-
-      it "changes 'google.com' to 'http://google.com'" do
-        url = build(:url, url: 'google.com')
-        url.sanitize
-        expect(url.sanitize_url).to eq('http://google.com')
-      end
-
-      it "changes 'https://www.google.com' to 'http://google.com'" do
-        url = build(:url, url: 'https://www.google.com')
-        url.sanitize
-        expect(url.sanitize_url).to eq('http://google.com')
-      end
-
-      it "changes 'http://www.google.com' to 'http://google.com'" do
-        url = build(:url, url: 'http://www.google.com')
-        url.sanitize
-        expect(url.sanitize_url).to eq('http://google.com')
-      end
-
-      it "changes 'www.github.com/DatabaseCleaner/database_cleaner/' to 'http://github.com/DatabaseCleaner/database_cleaner'" do
-        url = build(:url, url: 'www.github.com/DatabaseCleaner/database_cleaner/')
-        url.sanitize
-        expect(url.sanitize_url).to eq('http://github.com/databasecleaner/database_cleaner')
-      end
-
       it "strips leading spaces from url" do
         url = build(:url, url: '  http://www.google.com')
         url.sanitize
@@ -119,12 +77,6 @@ RSpec.describe Url, type: :model do
         url = build(:url, url: 'http://www.google.com  ')
         url.sanitize
         expect(url.url).to eq('http://www.google.com')
-      end
-
-      it "dowcases url before saving it as sanitize_url" do
-        url = build(:url, url: 'Google.com')
-        url.sanitize
-        expect(url.sanitize_url).to eq('http://google.com')
       end
 
     end
@@ -178,6 +130,11 @@ RSpec.describe Url, type: :model do
     end
 
     it "https://en.wikipedia.org/wiki/HTML_element#Anchor" do
+      url = build(:url, url: "https://en.wikipedia.org/wiki/HTML_element#Anchor")
+      expect(url).to be_valid
+    end
+
+    it "https://www.sucursalelectronica.com/redir/showLogin.go" do
       url = build(:url, url: "https://en.wikipedia.org/wiki/HTML_element#Anchor")
       expect(url).to be_valid
     end
