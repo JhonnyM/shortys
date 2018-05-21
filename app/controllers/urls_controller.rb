@@ -1,6 +1,6 @@
   class UrlsController < ApplicationController
-    TOP_URL_DELIMITER = 100
-    ORDER_DELIMITER = 'desc'
+    TOP_URL_DELIMITER = 100.freeze
+    ORDER_DELIMITER = 'desc'.freeze
     before_action :find_shortened_url, only: [:show, :shorty]
 
     def index
