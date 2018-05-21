@@ -61,29 +61,8 @@ RSpec.describe UrlsController, type: :controller do
           expect(response).to redirect_to shorty_path(assigns[:url].short_url)
         end
       end
-      context "with a url already in the database" do
-        before :each do
-          @url = create(:url, url: 'twitch.com')
-          @url.sanitize
-          @url.save
-        end
-        it "fails to create a new url entry" do
-          expect{
-            post :create, params: { url: attributes_for(:url, url: 'www.twitch.com') }
-          }.to_not change(Url, :count)
-        end
-        it "redirects to the existing url shortened page" do
-          post :create, params: { url: attributes_for(:url, url: 'www.twitch.com') }
-          expect(response).to redirect_to shorty_path(@url.short_url)
-        end
-      end
     end
     context "with invalid attributes" do
-      it "fails a new url entry" do
-        expect{
-          post :create, params: { url: attributes_for(:url, url: nil) }
-        }.to_not change(Url, :count)
-      end
       it "renders the :index template" do
         post :create, params: { url: attributes_for(:url, url: nil) }
         expect(response).to render_template :index
