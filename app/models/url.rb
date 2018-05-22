@@ -3,14 +3,14 @@ class Url < ApplicationRecord
   validates_presence_of :url, :access_count
   validates_format_of :url, with:  /\A(?:(?:http|https):\/\/)?([-a-zA-Z0-9.]{2,256}\.[a-z]{2,4})\b(?:\/[-a-zA-Z0-9@,!:%_\+.~#?&\/\/=]*)?\z/
   scope :top, -> (order, limit) { order(access_count: order).limit(limit) }
-  validates_uniqueness_of :short_url
+  ALPHABET = (('a'..'z').to_a + ('A'..'Z').to_a + (0..9).to_a).shuffle.join.freeze
 
   after_create :generate_short_url
   after_create :set_access
 
   def generate_short_url
-    # we generate a base 36 token
-    self.short_url = self.id.to_s(36)
+    # use the bijective function to enconde the url
+    self.short_url = self.bijective_encode(self.id)
     self.save
   end
 
@@ -44,5 +44,24 @@ class Url < ApplicationRecord
     self.sanitize_url.slice!(-1) if self.sanitize_url[-1] == "/"
     self.sanitize_url = "http://#{self.sanitize_url}"
   end
+
+  def bijective_encode(i)
+    return ALPHABET[0] if i == 0
+    s = ''
+    base = ALPHABET.length
+    while i > 0
+      s << ALPHABET[i.modulo(base)]
+      i /= base
+    end
+    s.reverse
+  end
+
+  def self.bijective_decode(s)
+    i = 0
+    base = ALPHABET.length
+    s.each_char { |c| i = i * base + ALPHABET.index(c) }
+    i
+  end
+
 
 end

@@ -29,7 +29,6 @@
     end
 
     def shorty
-      @url = Url.find_by_short_url(params[:short_url])
       host = request.host_with_port
       @original_url = @url.sanitize_url
       @short_url = host + '/' + @url.short_url
@@ -43,7 +42,7 @@
     private
 
     def find_shortened_url
-      @url = Url.find_by_short_url(params[:short_url])
+      @url = Url.find(Url.bijective_decode(params[:short_url]))
     end
 
     def url_params
